@@ -64,12 +64,10 @@ var handleCloudWatch = function(event, context) {
     attachments: [
       {
         "color": color,
-        "title": alarmDescription,
         "fields": [
           { "title": "URL", "value": resource, "short": true },
           { "title": "status", "value": newState, "short": true },
           { "title": "Time", "value": new Date(event.Records[0].Sns.Timestamp), "short": true},
-          { "title": "Response Code", "value": alarmReason, "short": false},
           {
             "title": "Link to Alarm",
             "value": "https://console.aws.amazon.com/cloudwatch/home?region=" + region + "#alarm:alarmFilter=ANY;name=" + encodeURIComponent(alarmName),

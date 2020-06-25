@@ -5,13 +5,13 @@
 #
 
 # Name of this project
-name : Terraform AWS Site Monitor
+name : Terraform AWS Lambda Site Monitor
 
 # License of this project
 license: "MIT"
 
 # Canonical GitHub repo
-github_repo: clouddrove/terraform-aws-site-monitor
+github_repo: clouddrove/terraform-aws-lambda-site-monitor
 
 # Badges to display
 badges:
