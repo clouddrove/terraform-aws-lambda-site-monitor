@@ -1,0 +1,9 @@
+# ignored files
+*.tfstate
+*.tfstate.backup
+.terraform
+.idea
+*.iml
+*.zip
+slack/layer/nodejs/node_modules
+slack/layer/nodejs/package-lock.json

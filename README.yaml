@@ -1,0 +1,54 @@
+---
+#
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
+#
+
+# Name of this project
+name : Terraform AWS Site Monitor
+
+# License of this project
+license: "MIT"
+
+# Canonical GitHub repo
+github_repo: clouddrove/terraform-aws-site-monitor
+
+# Badges to display
+badges:
+  - name: "Terraform"
+    image: "https://img.shields.io/badge/Terraform-v0.12-green"
+    url: "https://www.terraform.io"
+  - name: "Licence"
+    image: "https://img.shields.io/badge/License-MIT-blue.svg"
+    url: "LICENSE.md"
+
+#  description of this project
+description: |-
+  Terraform module to create Lambda resource on AWS for monitor different websites.
+# extra content
+# please not remove these two If you need add more
+include:
+  - "terraform.md"
+
+# How to use this project
+usage : |-
+  ### Simple example
+  Here is an example of how you can use this module in your inventory structure:
+  ```hcl
+  module "cloudtrail-slack-notification" {
+    source      = "git::https://github.com/clouddrove/terraform-aws-site-monitor.git?ref=tags/0.12.0"
+    name        = "site-monitor"
+    application = "clouddrove"
+    environment = "test"
+    label_order = ["environment", "application", "name"]
+    enabled     = true
+    schedule_expression = "cron(*/5 * * * ? *)"
+    variables = {
+      Website_URL = jsonencode(["https://google.com"]),
+      metricname  = "Site Availability"
+    }
+    slack_variables = {
+      SLACK_WEBHOOK = "https://hooks.slack.com/services/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r1Y"
+    }
+  }
+  ```

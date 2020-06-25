@@ -1,0 +1,28 @@
+{
+  "name": "lambda-cloudwatch-slack",
+  "version": "0.4.0",
+  "description": "Better Slack notifications for AWS CloudWatch",
+  "authors": [
+    "AnmolNagpal <anmol@clouddrove.com>"
+  ],
+  "config": {
+    "progress": "true"
+  },
+  "dependencies": {
+    "https": "^1.0.0",
+    "lodash": "^4.17.15",
+    "moment": "^2.26.0",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "node-lambda": "0.16.0"
+  },
+  "keywords": [
+    "slack",
+    "lambda",
+    "slackbot",
+    "cloudwatch",
+    "notifications"
+  ],
+  "license": "MIT"
+}
