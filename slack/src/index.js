@@ -74,8 +74,8 @@ var handleCloudWatch = function(event, context) {
             "short": false
           }
         ],
-        // "footer": "CloudDrove",
-        // "footer_icon": "https://clouddrove.com/media/images/favicon.ico",
+        "footer": "CloudDrove",
+        "footer_icon": "https://clouddrove.com/media/images/favicon.ico",
         "ts":  timestamp
       }
     ]
