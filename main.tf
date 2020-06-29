@@ -47,7 +47,10 @@ module "site-monitor" {
     "logs:CreateLogGroup",
     "logs:PutLogEvents",
     "cloudwatch:PutMetricAlarm",
-    "cloudwatch:PutMetricData"
+    "cloudwatch:PutMetricData",
+    "ec2:CreateNetworkInterface",
+    "ec2:DescribeNetworkInterfaces",
+    "ec2:DeleteNetworkInterface"
   ]
   timeout = 30
 
@@ -68,8 +71,10 @@ module "site-monitor" {
   principals = [
     "events.amazonaws.com"
   ]
-  source_arns = module.site-monitor-rule.arn
-  variables   = var.variables
+  source_arns        = module.site-monitor-rule.arn
+  variables          = var.variables
+  subnet_ids         = var.subnet_ids
+  security_group_ids = var.security_group_ids
 }
 
 resource "null_resource" "lambda" {

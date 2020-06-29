@@ -36,12 +36,12 @@ module "alarm" {
   period              = 300
   statistic           = "Average"
   threshold           = 200
-  alarm_description   = "https://google.com status"
-  alarm_actions       = ["arn:aws:sns:eu-west-1:xxxxxxxxxxxxxx:test-clouddrove-monitor-sns"]
+  alarm_description   = "google.com status"
+  alarm_actions       = [module.site-monitor.sns_arn]
 
   actions_enabled           = true
   insufficient_data_actions = []
-  ok_actions                = ["arn:aws:sns:eu-west-1:xxxxxxxxxxxxxx:test-clouddrove-monitor-sns"]
+  ok_actions                = [module.site-monitor.sns_arn]
   dimensions = {
     Website = "https://google.com",
     Status  = "WebsiteStatusCode"

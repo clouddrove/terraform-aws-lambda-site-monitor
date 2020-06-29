@@ -105,7 +105,9 @@ module "cloudtrail-slack-notification" {
 | managedby | ManagedBy, eg 'CloudDrove' or 'AnmolNagpal'. | string | `"anmol@clouddrove.com"` | no |
 | name | Lambda Name  \(e.g. `app` or `cluster`\). | string | `""` | no |
 | schedule\_expression | Schedule expression for site monitor lambda function. | string | `"anmol@clouddrove.com"` | no |
+| security\_group\_ids | Security Group IDs. | list | `<list>` | no |
 | slack\_variables | A map that defines environment variables for the Lambda function. | map | `<map>` | no |
+| subnet\_ids | Subnet IDs. | list | `<list>` | no |
 | variables | A map that defines environment variables for the Lambda function. | map | `<map>` | no |
 
 ## Outputs

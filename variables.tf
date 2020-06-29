@@ -53,3 +53,15 @@ variable "schedule_expression" {
   default     = "anmol@clouddrove.com"
   description = "Schedule expression for site monitor lambda function."
 }
+
+variable "subnet_ids" {
+  type        = list
+  default     = []
+  description = "Subnet IDs."
+}
+
+variable "security_group_ids" {
+  type        = list
+  default     = []
+  description = "Security Group IDs."
+}
