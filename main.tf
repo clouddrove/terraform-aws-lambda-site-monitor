@@ -14,7 +14,7 @@ resource "null_resource" "site-monitor" {
 #Module      : Cloudtrail Logs
 #Description : This terraform module is designed to create site-monitoring.
 module "site-monitor-rule" {
-  source = "git::https://github.com/clouddrove/terraform-aws-cloudwatch-event-rule.git?ref=tags/0.12.1"
+  source = "git::https://github.com/clouddrove/terraform-aws-cloudwatch-event-rule.git?ref=tags/0.12.0"
 
   name        = "site-monitor"
   application = var.application
@@ -31,7 +31,7 @@ module "site-monitor-rule" {
 }
 
 module "site-monitor" {
-  source = "git::https://github.com/clouddrove/terraform-aws-lambda.git?ref=tags/0.12.5"
+  source = "git::https://github.com/clouddrove/terraform-aws-lambda.git?ref=tags/0.12.0"
 
   name        = var.name
   application = var.application
@@ -85,7 +85,7 @@ resource "null_resource" "lambda" {
 }
 
 module "lambda" {
-  source = "git::https://github.com/clouddrove/terraform-aws-lambda.git?ref=tags/0.12.5"
+  source = "git::https://github.com/clouddrove/terraform-aws-lambda.git?ref=tags/0.12.0"
 
   name        = "monitor-lambda"
   application = var.application
@@ -129,7 +129,7 @@ module "lambda" {
 #Module      : SNS
 #Description : Provides an SNS topic resource
 module "sns" {
-  source = "git::https://github.com/clouddrove/terraform-aws-sns.git?ref=tags/0.12.2"
+  source = "git::https://github.com/clouddrove/terraform-aws-sns.git?ref=tags/0.12.0"
 
   name         = "monitor-sns"
   application  = var.application
