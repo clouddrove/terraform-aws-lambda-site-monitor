@@ -14,12 +14,13 @@ resource "null_resource" "site-monitor" {
 #Module      : Cloudtrail Logs
 #Description : This terraform module is designed to create site-monitoring.
 module "site-monitor-rule" {
-  source = "git::https://github.com/clouddrove/terraform-aws-cloudwatch-event-rule.git?ref=tags/0.12.0"
+  source = "git::https://github.com/clouddrove/terraform-aws-cloudwatch-event-rule.git?ref=tags/0.12.1"
 
   name        = "site-monitor"
   application = var.application
   environment = var.environment
   label_order = var.label_order
+  managedby   = var.managedby
   enabled     = var.enabled
 
   description         = "Event Rule for site monitor."
