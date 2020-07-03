@@ -7,6 +7,7 @@ import json
 
 website_url           = json.loads(os.environ['Website_URL'])
 metricname            = os.environ['metricname']
+timeout               = int(os.environ['timeout'])
 
 def write_metric(value, metric, site):
 	print(value)
@@ -37,7 +38,7 @@ def check_site(url, metric):
 	request = urllib2.Request(url)
 
 	try:
-		response = urllib2.urlopen(request)
+		response = urllib2.urlopen(request, timeout=timeout)
 		response.close()
 	except urllib2.URLError as e:
 		if hasattr(e, 'code'):
@@ -74,7 +75,7 @@ def handler(event, context):
 
 	for site in websiteurls:
 		r = check_site(site,metricname)
-		if r == 200 or r == 304 or r == 304:
+		if r == 200 or r == 304 or r == 400:
 			print("Site %s is up" %site)
 			write_metric(200, metricname, site)
 		else:
