@@ -53,7 +53,7 @@ module "site-monitor" {
     "ec2:DescribeNetworkInterfaces",
     "ec2:DeleteNetworkInterface"
   ]
-  timeout = 30
+  timeout = var.timeout
 
   names = [
     "python_layer"

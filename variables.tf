@@ -65,3 +65,9 @@ variable "security_group_ids" {
   default     = []
   description = "Security Group IDs."
 }
+
+variable "timeout" {
+  type        = number
+  default     = 30
+  description = "timeout."
+}

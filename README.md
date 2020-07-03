@@ -108,6 +108,7 @@ module "cloudtrail-slack-notification" {
 | security\_group\_ids | Security Group IDs. | list | `<list>` | no |
 | slack\_variables | A map that defines environment variables for the Lambda function. | map | `<map>` | no |
 | subnet\_ids | Subnet IDs. | list | `<list>` | no |
+| timeout | timeout. | number | `"30"` | no |
 | variables | A map that defines environment variables for the Lambda function. | map | `<map>` | no |
 
 ## Outputs
