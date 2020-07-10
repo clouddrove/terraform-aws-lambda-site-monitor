@@ -4,6 +4,7 @@ import boto3
 import urllib.request as urllib2
 import os
 import json
+import threading
 
 website_url           = json.loads(os.environ['Website_URL'])
 metricname            = os.environ['metricname']
@@ -36,9 +37,8 @@ def check_site(url, metric):
 	STAT = 1
 	print("Checking %s " % url)
 	request = urllib2.Request(url)
-
 	try:
-		response = urllib2.urlopen(request, timeout=timeout)
+		response = urllib2.urlopen(request,timeout=timeout)
 		response.close()
 	except urllib2.URLError as e:
 		if hasattr(e, 'code'):
@@ -46,7 +46,7 @@ def check_site(url, metric):
 			print ("[Error:] Connection to %s failed with code: " %url +str(e.code))
 			STAT = int(e.code)
 			# write_metric(STAT, metric, url)
-		if hasattr(e, 'reason'):
+		elif hasattr(e, 'reason'):
 			print("2nd if")
 			print ("[Error:] Connection to %s failed with code: " % url +str(e.reason))
 			STAT = 501
@@ -57,27 +57,36 @@ def check_site(url, metric):
 			print ("[Error:] Connection to %s failed with code: " % url + str(e.code))
 			STAT = int(e.code)
 			# write_metric(STAT, metric, url)
-		if hasattr(e, 'reason'):
+		elif hasattr(e, 'reason'):
 			print("4th if")
 			print ("[Error:] Connection to %s failed with code: " % url + str(e.reason))
 			STAT = 501
 			# write_metric(STAT, metric, url)
-	if STAT != 501:
+	print(STAT)
+	if STAT != 501 and STAT ==1:
 		STAT = response.getcode()
 
 	return STAT
+
+def run_thread(site):
+  	r = check_site(site,metricname)
+  	if r == 200 or r == 304 or r == 400:
+  		print("Site %s is up" %site)
+  		write_metric(200, metricname, site)
+  	else:
+  		print("[Error:] Site %s down" %site)
+  		write_metric(int(r), metricname, site)
 
 def handler(event, context):
 
 	# Change these to your actual websites.  Remember, the more websites you list
         # the longer the lambda function will run
 	websiteurls = website_url
+	t = [0]*len(website_url)
+	for i in range(len(websiteurls)):
+		t[i] = threading.Thread(target=run_thread, args=(website_url[i],))
+		t[i].start()
 
-	for site in websiteurls:
-		r = check_site(site,metricname)
-		if r == 200 or r == 304 or r == 400:
-			print("Site %s is up" %site)
-			write_metric(200, metricname, site)
-		else:
-			print("[Error:] Site %s down" %site)
-			write_metric(int(r), metricname, site)
+	for i in range(len(t)):
+		t[i].join()
+	print("Done!")

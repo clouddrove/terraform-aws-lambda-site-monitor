@@ -14,9 +14,10 @@ module "site-monitor" {
   variables = {
     Website_URL = jsonencode(["https://google.com"]),
     metricname  = "Site Availability"
+    timeout     = 5
   }
   slack_variables = {
-    SLACK_WEBHOOK = "https://hooks.slack.com/services/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r1Y"
+    SLACK_WEBHOOK = "https://hooks.slack.com/services/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yrrh08dJo5r1Y"
   }
 }
 
@@ -40,7 +41,7 @@ module "alarm" {
   alarm_actions       = [module.site-monitor.sns_arn]
 
   actions_enabled           = true
-  insufficient_data_actions = []
+  insufficient_data_actions = [module.site-monitor.sns_arn]
   ok_actions                = [module.site-monitor.sns_arn]
   dimensions = {
     Website = "https://google.com",

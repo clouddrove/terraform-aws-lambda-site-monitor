@@ -55,8 +55,10 @@ var handleCloudWatch = function(event, context) {
 
   if (message.NewStateValue === "ALARM") {
       color = "danger";
+      message = "Monitor: endpoint is down (!200)";
   } else if (message.NewStateValue === "OK") {
       color = "good";
+      message = "Monitor: endpoint is up (200)";
   }
 
   var slackMessage = {
@@ -68,6 +70,7 @@ var handleCloudWatch = function(event, context) {
           { "title": "URL", "value": resource, "short": true },
           { "title": "status", "value": newState, "short": true },
           { "title": "Time", "value": new Date(event.Records[0].Sns.Timestamp), "short": true},
+          { "title": "Message", "value": message, "short": true},
           {
             "title": "Link to Alarm",
             "value": "https://console.aws.amazon.com/cloudwatch/home?region=" + region + "#alarm:alarmFilter=ANY;name=" + encodeURIComponent(alarmName),
