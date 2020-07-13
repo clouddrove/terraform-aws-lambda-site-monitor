@@ -11,6 +11,12 @@ resource "null_resource" "site-monitor" {
   }
 }
 
+resource "null_resource" "lambda" {
+  provisioner "local-exec" {
+    command = format("cd %s/slack && bash build.sh", path.module)
+  }
+}
+
 #Module      : Cloudtrail Logs
 #Description : This terraform module is designed to create site-monitoring.
 module "site-monitor-rule" {
@@ -76,12 +82,6 @@ module "site-monitor" {
   variables          = var.variables
   subnet_ids         = var.subnet_ids
   security_group_ids = var.security_group_ids
-}
-
-resource "null_resource" "lambda" {
-  provisioner "local-exec" {
-    command = format("cd %s/slack && bash build.sh", path.module)
-  }
 }
 
 module "lambda" {
