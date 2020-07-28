@@ -6,6 +6,7 @@ import os
 import json
 import threading
 import requests
+import time
 from requests.exceptions import HTTPError
 
 website_url           = json.loads(os.environ['Website_URL'])
@@ -67,18 +68,20 @@ def run_thread(site):
 		print("[Error:] Site %s down" %site)
 		write_metric(int(r), metricname, site)
 
-def handler():
+def handler(event, context):
 
 	# Change these to your actual websites.  Remember, the more websites you list
 		# the longer the lambda function will run
 	websiteurls = website_url
 	t = [0]*len(website_url)
+	j = 1
 	for i in range(len(websiteurls)):
 		t[i] = threading.Thread(target=run_thread, args=(website_url[i],))
+		if j == 6:
+			time.sleep(5)
 		t[i].start()
+		j = j+1
 
 	for i in range(len(t)):
 		t[i].join()
 	print("Done!")
-
-handler()
