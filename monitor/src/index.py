@@ -51,13 +51,15 @@ def check_site(url, metric):
 
 	if STAT != 501 and STAT ==1:
 		print('Success!')
-		print(response.status_code)
+		print(response.elapsed.total_seconds())
 		STAT = response.status_code
 
 	return STAT
 
 def run_thread(site):
 	r = check_site(site,metricname)
+	if r == 501:
+		r = check_site(site,metricname)
 	if r == 200 or r == 304 or r == 400:
 		print("Site %s is up" %site)
 		write_metric(200, metricname, site)
