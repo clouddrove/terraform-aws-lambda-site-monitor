@@ -26,11 +26,29 @@ variable "label_order" {
 
 variable "enabled" {
   type        = bool
-  default     = false
+  default     = true
+  description = "Whether to create lambda function."
+}
+
+variable "ssl_check_enabled" {
+  type        = bool
+  default     = true
+  description = "Whether to create lambda function."
+}
+
+variable "monitor_enabled" {
+  type        = bool
+  default     = true
   description = "Whether to create lambda function."
 }
 
 variable "variables" {
+  type        = map
+  default     = {}
+  description = "A map that defines environment variables for the Lambda function."
+}
+
+variable "ssl_variables" {
   type        = map
   default     = {}
   description = "A map that defines environment variables for the Lambda function."
@@ -50,7 +68,13 @@ variable "managedby" {
 
 variable "schedule_expression" {
   type        = string
-  default     = "anmol@clouddrove.com"
+  default     = "cron(*/5 * * * ? *)"
+  description = "Schedule expression for site monitor lambda function."
+}
+
+variable "ssl_schedule_expression" {
+  type        = string
+  default     = "cron(*/5 * * * ? *)"
   description = "Schedule expression for site monitor lambda function."
 }
 
