@@ -7,7 +7,7 @@ module "site-monitor" {
 
   name                = "site-monitor"
   application         = "clouddrove"
-  environment         = "test1"
+  environment         = "test"
   label_order         = ["environment", "application", "name"]
   enabled             = true
   monitor_enabled     = true
@@ -28,7 +28,7 @@ module "site-monitor" {
   }
 }
 
-/*module "alarm" {
+module "alarm" {
   source = "git::https://github.com/clouddrove/terraform-aws-cloudwatch-alarms.git?ref=tags/0.12.3"
 
   name        = "alarm"
@@ -54,4 +54,4 @@ module "site-monitor" {
     Website = "https://google.com",
     Status  = "WebsiteStatusCode"
   }
-}*/
+}
