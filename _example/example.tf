@@ -10,6 +10,8 @@ module "site-monitor" {
   environment         = "test"
   label_order         = ["environment", "application", "name"]
   enabled             = true
+  monitor_enabled     = true
+  ssl_check_enabled   = true
   schedule_expression = "cron(*/5 * * * ? *)"
   variables = {
     Website_URL = jsonencode(["https://google.com"]),
@@ -18,6 +20,11 @@ module "site-monitor" {
   }
   slack_variables = {
     SLACK_WEBHOOK = "https://hooks.slack.com/services/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yrrh08dJo5r1Y"
+  }
+  ssl_variables = {
+    domains       = jsonencode(["clouddrove.com"]),
+    SLACK_WEBHOOK = "https://hooks.slack.com/services/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yrrh08dJo5r1Y"
+    SLACK_CHANNEL = "testing"
   }
 }
 

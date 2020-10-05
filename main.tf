@@ -17,6 +17,12 @@ resource "null_resource" "lambda" {
   }
 }
 
+resource "null_resource" "ssl-check" {
+  provisioner "local-exec" {
+    command = format("cd %s/ssl-check && bash build.sh", path.module)
+  }
+}
+
 #Module      : Cloudtrail Logs
 #Description : This terraform module is designed to create site-monitoring.
 module "site-monitor-rule" {
@@ -27,7 +33,7 @@ module "site-monitor-rule" {
   environment = var.environment
   label_order = var.label_order
   managedby   = var.managedby
-  enabled     = var.enabled
+  enabled     = var.enabled && var.monitor_enabled
 
   description         = "Event Rule for site monitor."
   schedule_expression = var.schedule_expression
@@ -44,7 +50,7 @@ module "site-monitor" {
   environment = var.environment
   managedby   = var.managedby
   label_order = var.label_order
-  enabled     = var.enabled
+  enabled     = var.enabled && var.monitor_enabled
 
   filename = format("%s/monitor/src", path.module)
   handler  = "index.handler"
@@ -91,7 +97,7 @@ module "lambda" {
   application = var.application
   environment = var.environment
   label_order = var.label_order
-  enabled     = var.enabled
+  enabled     = var.enabled && var.monitor_enabled
   managedby   = var.managedby
 
   filename = format("%s/slack/src", path.module)
@@ -137,9 +143,76 @@ module "sns" {
   label_order  = var.label_order
   managedby    = var.managedby
   enable_topic = true
-  enabled      = var.enabled
+  enabled      = var.enabled && var.monitor_enabled
 
   protocol        = "lambda"
   endpoint        = module.lambda.arn
   delivery_policy = format("%s/_json/delivery_policy.json", path.module)
+}
+
+#Module      : Cloudtrail Logs
+#Description : This terraform module is designed to create site ssl check.
+module "ssl-check-rule" {
+  source = "git::https://github.com/clouddrove/terraform-aws-cloudwatch-event-rule.git?ref=tags/0.12.1"
+
+  name        = "ssl-check"
+  application = var.application
+  environment = var.environment
+  label_order = var.label_order
+  managedby   = var.managedby
+  enabled     = var.enabled && var.ssl_check_enabled
+
+  description         = "Event Rule for site ssl check."
+  schedule_expression = var.ssl_schedule_expression
+
+  target_id = format("%s-%s-%s", var.environment, var.application, var.name)
+  arn       = format("arn:aws:lambda:%s:%s:function:%s-%s-%s", data.aws_region.current.name, data.aws_caller_identity.current.account_id, var.environment, var.application, var.name)
+}
+
+module "ssl-check" {
+  source = "git::https://github.com/clouddrove/terraform-aws-lambda.git?ref=tags/0.12.5"
+
+  name        = "ssl-check"
+  application = var.application
+  environment = var.environment
+  managedby   = var.managedby
+  label_order = var.label_order
+  enabled     = var.enabled && var.ssl_check_enabled
+
+  filename = format("%s/ssl-check/src", path.module)
+  handler  = "index.handler"
+  runtime  = "python3.8"
+  iam_actions = [
+    "logs:CreateLogStream",
+    "logs:CreateLogGroup",
+    "logs:PutLogEvents",
+    "cloudwatch:PutMetricAlarm",
+    "cloudwatch:PutMetricData",
+    "ec2:CreateNetworkInterface",
+    "ec2:DescribeNetworkInterfaces",
+    "ec2:DeleteNetworkInterface"
+  ]
+  timeout = var.timeout
+
+  names = [
+    "python_layer"
+  ]
+  layer_filenames = [format("%s/ssl-check/packages/Python3-ssl-check.zip", path.module)]
+  compatible_runtimes = [
+    ["python3.8"]
+  ]
+
+  statement_ids = [
+    "AllowExecutionFromCloudWatch"
+  ]
+  actions = [
+    "lambda:InvokeFunction"
+  ]
+  principals = [
+    "events.amazonaws.com"
+  ]
+  source_arns        = module.ssl-check-rule.arn
+  variables          = var.ssl_variables
+  subnet_ids         = var.subnet_ids
+  security_group_ids = var.security_group_ids
 }
