@@ -36,11 +36,12 @@ usage : |-
   Here is an example of how you can use this module in your inventory structure:
   ```hcl
   module "cloudtrail-slack-notification" {
-    source      = "git::https://github.com/clouddrove/terraform-aws-site-monitor.git?ref=tags/0.12.0"
+    source  = "clouddrove/lambdasite-monitor/aws"
+    version = "0.15.0"
+
     name        = "site-monitor"
-    application = "clouddrove"
     environment = "test"
-    label_order = ["environment", "application", "name"]
+    label_order = ["environment", "name"]
     enabled     = true
     schedule_expression = "cron(*/5 * * * ? *)"
     variables = {

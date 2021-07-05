@@ -7,3 +7,4 @@
 *.zip
 slack/layer/nodejs/node_modules
 slack/layer/nodejs/package-lock.json
+*.terrafrom.lock.hcl
