@@ -319,4 +319,3 @@ def handler(event, context):
             print('Everything Fine..')
             payload = create_slack_payload({"domainNmae":dName, "days": str(c), "Alert": "None" , "Issuer_Name":str(issuer_name) ,"Issue":str(issued_On) , "Expires":str(expires_On) , "Message": dName+" SSL certificate will be expired in "+str(c)+" days"},"success","SSL-Expiry-Checkup")
             post_to_slack(payload)
-
