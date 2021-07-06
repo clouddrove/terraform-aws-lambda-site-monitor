@@ -7,7 +7,7 @@
     Terraform AWS Lambda Site Monitor
 </h1>
 
-<p align="center" style="font-size: 1.2rem;">
+<p align="center" style="font-size: 1.2rem;"> 
     Terraform module to create Lambda resource on AWS for monitor different websites.
      </p>
 
@@ -38,7 +38,7 @@
 <hr>
 
 
-We eat, drink, sleep and most importantly love **DevOps**. We are working towards strategies for standardizing architecture while ensuring security for the infrastructure. We are strong believer of the philosophy <b>Bigger problems are always solved by breaking them into smaller manageable problems</b>. Resonating with microservices architecture, it is considered best-practice to run database, cluster, storage in smaller <b>connected yet manageable pieces</b> within the infrastructure.
+We eat, drink, sleep and most importantly love **DevOps**. We are working towards strategies for standardizing architecture while ensuring security for the infrastructure. We are strong believer of the philosophy <b>Bigger problems are always solved by breaking them into smaller manageable problems</b>. Resonating with microservices architecture, it is considered best-practice to run database, cluster, storage in smaller <b>connected yet manageable pieces</b> within the infrastructure. 
 
 This module is basically combination of [Terraform open source](https://www.terraform.io/) and includes automatation tests and examples. It also helps to create and improve your infrastructure with minimalistic code instead of maintaining the whole infrastructure code yourself.
 
@@ -49,9 +49,9 @@ We have [*fifty plus terraform modules*][terraform_modules]. A few of them are c
 
 ## Prerequisites
 
-This module has a few dependencies:
+This module has a few dependencies: 
 
-- [Terraform 0.12](https://learn.hashicorp.com/terraform/getting-started/install.html)
+- [Terraform 0.13](https://learn.hashicorp.com/terraform/getting-started/install.html)
 - [Go](https://golang.org/doc/install)
 - [github.com/stretchr/testify/assert](https://github.com/stretchr/testify)
 - [github.com/gruntwork-io/terratest/modules/terraform](https://github.com/gruntwork-io/terratest)
@@ -72,11 +72,12 @@ This module has a few dependencies:
 Here is an example of how you can use this module in your inventory structure:
 ```hcl
 module "cloudtrail-slack-notification" {
-  source      = "git::https://github.com/clouddrove/terraform-aws-site-monitor.git?ref=tags/0.12.0"
+  source  = "clouddrove/lambdasite-monitor/aws"
+  version = "0.15.0"
+
   name        = "site-monitor"
-  application = "clouddrove"
   environment = "test"
-  label_order = ["environment", "application", "name"]
+  label_order = ["environment", "name"]
   enabled     = true
   schedule_expression = "cron(*/5 * * * ? *)"
   variables = {
@@ -98,25 +99,29 @@ module "cloudtrail-slack-notification" {
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| application | Lambda Application \(e.g. `cd` or `clouddrove`\). | string | `""` | no |
-| enabled | Whether to create lambda function. | bool | `"false"` | no |
-| environment | Lambda Environment \(e.g. `prod`, `dev`, `staging`\). | string | `""` | no |
-| label\_order | Label order, e.g. `name`,`application`. | list | `<list>` | no |
-| managedby | ManagedBy, eg 'CloudDrove' or 'AnmolNagpal'. | string | `"anmol@clouddrove.com"` | no |
-| name | Lambda Name  \(e.g. `app` or `cluster`\). | string | `""` | no |
-| schedule\_expression | Schedule expression for site monitor lambda function. | string | `"anmol@clouddrove.com"` | no |
-| security\_group\_ids | Security Group IDs. | list | `<list>` | no |
-| slack\_variables | A map that defines environment variables for the Lambda function. | map | `<map>` | no |
-| subnet\_ids | Subnet IDs. | list | `<list>` | no |
-| timeout | timeout. | number | `"30"` | no |
-| variables | A map that defines environment variables for the Lambda function. | map | `<map>` | no |
+|------|-------------|------|---------|:--------:|
+| enabled | Whether to create lambda function. | `bool` | `true` | no |
+| environment | Lambda Environment (e.g. `prod`, `dev`, `staging`). | `string` | `""` | no |
+| label\_order | Label order, e.g. `name`,`application`. | `list(any)` | `[]` | no |
+| managedby | ManagedBy, eg 'CloudDrove' or 'AnmolNagpal'. | `string` | `"anmol@clouddrove.com"` | no |
+| monitor\_enabled | Whether to create lambda function. | `bool` | `true` | no |
+| name | Lambda Name  (e.g. `app` or `cluster`). | `string` | `""` | no |
+| repository | Terraform current module repo | `string` | `"https://github.com/clouddrove/terraform-aws-lambda-site-monitor"` | no |
+| schedule\_expression | Schedule expression for site monitor lambda function. | `string` | `"cron(*/5 * * * ? *)"` | no |
+| security\_group\_ids | Security Group IDs. | `list(any)` | `[]` | no |
+| slack\_variables | A map that defines environment variables for the Lambda function. | `map(any)` | `{}` | no |
+| ssl\_check\_enabled | Whether to create lambda function. | `bool` | `true` | no |
+| ssl\_schedule\_expression | Schedule expression for site monitor lambda function. | `string` | `"cron(*/5 * * * ? *)"` | no |
+| ssl\_variables | A map that defines environment variables for the Lambda function. | `map(any)` | `{}` | no |
+| subnet\_ids | Subnet IDs. | `list(any)` | `[]` | no |
+| timeout | timeout. | `number` | `30` | no |
+| variables | A map that defines environment variables for the Lambda function. | `map(any)` | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| arn | The Amazon Resource Name \(ARN\) identifying your cloudtrail logs Lambda Function. |
+| arn | The Amazon Resource Name (ARN) identifying your cloudtrail logs Lambda Function. |
 | sns\_arn | The SNS topic to which CloudWatch Alarms will be sent. |
 | sns\_id | The SNS topic to which CloudWatch Alarms will be sent. |
 | tags | A mapping of tags to assign to the resource. |
@@ -125,7 +130,7 @@ module "cloudtrail-slack-notification" {
 
 
 ## Testing
-In this module testing is performed with [terratest](https://github.com/gruntwork-io/terratest) and it creates a small piece of infrastructure, matches the output like ARN, ID and Tags name etc and destroy infrastructure in your AWS account. This testing is written in GO, so you need a [GO environment](https://golang.org/doc/install) in your system.
+In this module testing is performed with [terratest](https://github.com/gruntwork-io/terratest) and it creates a small piece of infrastructure, matches the output like ARN, ID and Tags name etc and destroy infrastructure in your AWS account. This testing is written in GO, so you need a [GO environment](https://golang.org/doc/install) in your system. 
 
 You need to run the following command in the testing folder:
 ```hcl
@@ -134,7 +139,7 @@ You need to run the following command in the testing folder:
 
 
 
-## Feedback
+## Feedback 
 If you come accross a bug or have any feedback, please log it in our [issue tracker](https://github.com/clouddrove/terraform-aws-lambda-site-monitor/issues), or feel free to drop us an email at [hello@clouddrove.com](mailto:hello@clouddrove.com).
 
 If you have found it worth your time, go ahead and give us a ★ on [our GitHub](https://github.com/clouddrove/terraform-aws-lambda-site-monitor)!
