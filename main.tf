@@ -172,7 +172,7 @@ module "ssl-check-rule" {
 
 module "ssl-check" {
   source  = "clouddrove/lambda/aws"
-  version = "1.0.1"
+  version = "1.3.0"
 
   name        = "ssl-check"
   environment = var.environment
