@@ -46,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.12.0] - 2020-06-25
 ### :bug: Bug Fixes
 - [`8166afd`](https://github.com/clouddrove/terraform-aws-lambda-site-monitor/commit/8166afdb6e1041c5f734c5a6c6f26f010c86f2ce) - update lambda script
-- 
+
 ### :sparkles: New Features
 - [`0d2c684`](https://github.com/clouddrove/terraform-aws-lambda-site-monitor/commit/0d2c68494b6654455fb8bc71bec0cddc913b372f) - added vpc in site monitor lambda.
 - [`32ad221`](https://github.com/clouddrove/terraform-aws-lambda-site-monitor/commit/32ad221c0f086029c5198809d2513323dfdbb028) - implement multithread
