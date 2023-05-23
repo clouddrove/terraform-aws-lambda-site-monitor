@@ -18,12 +18,12 @@ module "site-monitor" {
     timeout     = 5
   }
   slack_variables = {
-    SLACK_WEBHOOK = "https://hooks.slack.com/services/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yrrh08dJo5r1Y"
+    slack_webhook = "https://hooks.slack.com/services/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yrrh08dJo5r1Y"
   }
   ssl_variables = {
     domains       = jsonencode(["clouddrove.com"]),
-    SLACK_WEBHOOK = "https://hooks.slack.com/services/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yrrh08dJo5r1Y"
-    SLACK_CHANNEL = "testing"
+    slack_webhook = "https://hooks.slack.com/services/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yrrh08dJo5r1Y"
+    slack_channel = "testing"
   }
 }
 
