@@ -38,7 +38,7 @@ providers:
     url: https://aws.amazon.com/
     version: ">= 5.31.0"
 
-module_dependencies:
+module_dependencies: 
   - name: Module Cloudtrail Logs
     url: https://github.com/clouddrove/terraform-aws-cloudwatch-event-rule
     description: Provides cloudwatch event rules.
