@@ -29,7 +29,7 @@ module "site-monitor" {
 
 module "alarm" {
   source  = "clouddrove/cloudwatch-alarms/aws"
-  version = "1.3.2"
+  version = "1.3.3"
 
   name        = "alarm"
   environment = "test"
