@@ -45,13 +45,13 @@ module "site-monitor-rule" {
 
 module "site-monitor" {
   source  = "clouddrove/lambda/aws"
-  version = "1.3.1"
+  version = "1.3.2"
 
   name        = var.name
   environment = var.environment
   managedby   = var.managedby
   label_order = var.label_order
-  enabled     = var.enabled && var.monitor_enabled
+  enable      = var.enabled && var.monitor_enabled
 
   filename = format("%s/monitor/src", path.module)
   handler  = "index.handler"
@@ -68,7 +68,7 @@ module "site-monitor" {
   ]
   timeout = var.timeout
 
-  names = [
+  layer_names = [
     "python_layer"
   ]
   layer_filenames = [format("%s/monitor/packages/Python3-monitor.zip", path.module)]
@@ -93,12 +93,12 @@ module "site-monitor" {
 
 module "lambda" {
   source  = "clouddrove/lambda/aws"
-  version = "1.3.1"
+  version = "1.3.2"
 
   name        = "monitor-lambda"
   environment = var.environment
   label_order = var.label_order
-  enabled     = var.enabled && var.monitor_enabled
+  enable      = var.enabled && var.monitor_enabled
   managedby   = var.managedby
 
   filename = format("%s/slack/src", path.module)
@@ -112,7 +112,7 @@ module "lambda" {
   ]
   timeout = 30
 
-  names = [
+  layer_names = [
     "node_layer"
   ]
   layer_filenames = [format("%s/slack/layer/nodejs.zip", path.module)]
@@ -172,13 +172,13 @@ module "ssl-check-rule" {
 
 module "ssl-check" {
   source  = "clouddrove/lambda/aws"
-  version = "1.3.1"
+  version = "1.3.2"
 
   name        = "ssl-check"
   environment = var.environment
   managedby   = var.managedby
   label_order = var.label_order
-  enabled     = var.enabled && var.ssl_check_enabled
+  enable      = var.enabled && var.ssl_check_enabled
 
   filename = format("%s/ssl-check/src", path.module)
   handler  = "index.handler"
@@ -195,7 +195,7 @@ module "ssl-check" {
   ]
   timeout = var.timeout
 
-  names = [
+  layer_names = [
     "python_layer"
   ]
   layer_filenames = [format("%s/ssl-check/packages/Python3-ssl-check.zip", path.module)]
