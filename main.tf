@@ -27,7 +27,7 @@ resource "null_resource" "ssl-check" {
 #Description : This terraform module is designed to create site-monitoring.
 module "site-monitor-rule" {
   source  = "clouddrove/cloudwatch-event-rule/aws"
-  version = "1.0.1"
+  version = "1.0.2"
 
 
   name        = "site-monitor"
@@ -155,7 +155,7 @@ module "sns" {
 #Description : This terraform module is designed to create site ssl check.
 module "ssl-check-rule" {
   source  = "clouddrove/cloudwatch-event-rule/aws"
-  version = "1.0.1"
+  version = "1.0.2"
 
   name        = "ssl-check"
   environment = var.environment
