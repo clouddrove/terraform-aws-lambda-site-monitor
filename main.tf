@@ -137,7 +137,7 @@ module "lambda" {
 #Description : Provides an SNS topic resource
 module "sns" {
   source  = "clouddrove/sns/aws"
-  version = "1.3.0"
+  version = "1.3.1"
 
   name         = "monitor-sns"
   environment  = var.environment
