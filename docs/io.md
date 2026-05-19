@@ -27,3 +27,4 @@
 | sns\_arn | The SNS topic to which CloudWatch Alarms will be sent. |
 | sns\_id | The SNS topic to which CloudWatch Alarms will be sent. |
 | tags | A mapping of tags to assign to the resource. |
+
