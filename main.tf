@@ -40,7 +40,9 @@ module "site-monitor-rule" {
   schedule_expression = var.schedule_expression
 
   target_id = format("%s-%s", var.environment, var.name)
-  arn       = format("arn:aws:lambda:%s:%s:function:%s-%s", data.aws_region.current.name, data.aws_caller_identity.current.account_id, var.environment, var.name)
+  arn       = format("arn:aws:lambda:%s:%s:function:%s-%s", data.aws_region.current.region, data.aws_caller_identity.current.account_id, var.environment, var.name)
+
+  input_template = jsonencode({})
 }
 
 module "site-monitor" {
@@ -146,9 +148,21 @@ module "sns" {
   enable_topic = true
   enabled      = var.enabled && var.monitor_enabled
 
-  protocol        = "lambda"
-  endpoint        = module.lambda.arn
-  delivery_policy = format("%s/_json/delivery_policy.json", path.module)
+  delivery_policy = file(format("%s/_json/delivery_policy.json", path.module))
+  subscribers = {
+    lambda = {
+      protocol                        = "lambda"
+      endpoint                        = module.lambda.arn
+      endpoint_auto_confirms          = false
+      raw_message_delivery            = false
+      filter_policy                   = ""
+      delivery_policy                 = ""
+      confirmation_timeout_in_minutes = "1"
+      redrive_policy                  = ""
+      replay_policy                   = ""
+      subscription_role_arn           = ""
+    }
+  }
 }
 
 #Module      : Cloudtrail Logs
@@ -167,7 +181,9 @@ module "ssl-check-rule" {
   schedule_expression = var.ssl_schedule_expression
 
   target_id = format("%s-%s", var.environment, var.name)
-  arn       = format("arn:aws:lambda:%s:%s:function:%s-%s", data.aws_region.current.name, data.aws_caller_identity.current.account_id, var.environment, var.name)
+  arn       = format("arn:aws:lambda:%s:%s:function:%s-%s", data.aws_region.current.region, data.aws_caller_identity.current.account_id, var.environment, var.name)
+
+  input_template = jsonencode({})
 }
 
 module "ssl-check" {
