@@ -47,7 +47,7 @@ module "site-monitor-rule" {
 
 module "site-monitor" {
   source  = "clouddrove/lambda/aws"
-  version = "1.3.2"
+  version = "1.3.3"
 
   name        = var.name
   environment = var.environment
@@ -95,7 +95,7 @@ module "site-monitor" {
 
 module "lambda" {
   source  = "clouddrove/lambda/aws"
-  version = "1.3.2"
+  version = "1.3.3"
 
   name        = "monitor-lambda"
   environment = var.environment
@@ -188,7 +188,7 @@ module "ssl-check-rule" {
 
 module "ssl-check" {
   source  = "clouddrove/lambda/aws"
-  version = "1.3.2"
+  version = "1.3.3"
 
   name        = "ssl-check"
   environment = var.environment
